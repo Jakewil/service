@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>输入内容：<input type="text" id="txt"/></div>
+<div>显示内容：<span id="show"></span></div>
+
+<script>
+    var txt = document.getElementById('txt'),
+        show = document.getElementById('show'),
+        obj = {}
+    var val
+
+
+    // 给对象obj添加msg属性，并设置访问器
+    Object.defineProperty(obj, 'msg', {
+        get : function(){
+            console.log('监听正在获取msg')
+            return val;
+        },
+        // 设置 obj.msg  当obj.msg改变时set方法将会被调用
+        set: function (newVal) {
+            console.log('监听正在设置')
+            val=newVal
+            // 当obj.msg被赋值时 同时设置给 input/span
+            txt.value = newVal
+            show.innerText = newVal
+        }
+    })
+
+    // 监听文本框的改变 当文本框输入内容时 改变obj.msg
+    txt.addEventListener('keyup', function (event) {
+        obj.msg = event.target.value
+    })
+
+    obj.msg='test'//调用set
+    console.log(obj.msg)//调用get
+</script>
+</body>
+</html>

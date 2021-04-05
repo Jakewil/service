@@ -1,0 +1,23 @@
+.title {
+  background: #99a9bf;
+  font-size: 30px;
+  text-align: center;
+  color:#fff;
+}
+.fm_item {
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.el-form-item {
+    margin-bottom: 0px;
+}
+.containerh {
+    height: calc(100vh-53px)!important; 
+}
+.el-form-item {
+    margin-bottom: 20px;
+}
+.radio_s {
+    margin-top: 12px
+}

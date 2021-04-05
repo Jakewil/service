@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body id="app">
+<input type="text" v-model="name"/>
+<span k-bind="name"></span>
+<br>
+<input type="text" v-model="age"/>
+<span k-bind="age"></span>
+
+<script>
+    window.onload = function() {
+        console.log(1)
+        // 实例化vue
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: 'zhoupengyu',
+                age: '19'
+            },
+        })
+    }
+    function Vue(options) {
+        console.log(2)
+        this.$el = document.querySelector(options.el);//获取所有的DOM元素
+        this.$data = {};
+        this.$Attr = [];
+
+        this.loop(this.$el)
+
+        this.observer(options.data)
+    }
+    // 初始化循环DOM
+    Vue.prototype.loop = function(el) {
+        console.log(3)
+        var nodes = el.children;
+        var _this = this;
+        for(var i=0; i<nodes.length-1; i++){
+            // 筛选含有指令的DOM节点
+            if (nodes[i].hasAttribute('v-model')) {
+                nodes[i].addEventListener('input', (function(key) {
+                    var attrVal = nodes[i].getAttribute('v-model');
+                    // 添加一个input的观察者
+                    _this.$Attr.push(new Watcher('input',nodes[i],attrVal,'value'))
+                    //_this.$Attr.push把观察者推进团队，new Watcher()新增一个dom元素的观察者
+                    return function() {
+                        // 监听input变化，触发Object.definePropert
+                        _this.$key = attrVal;
+                        _this.$data[attrVal] =  nodes[key].value;
+                    }
+                })(i)); // 自执行一一绑定input
+            }
+            if (nodes[i].hasAttribute('v-bind')) {
+                var attrVal = nodes[i].getAttribute('v-bind');
+                // 添加一个v-bind的观察者
+                _this.$Attr.push(new Watcher('span',nodes[i],attrVal,'textContent'))
+            }
+        }
+    }
+    // 观察者类
+    function Watcher(name, el, exp, attr) {
+        console.log(4)
+        this.name = name;         // 指令名称
+        this.el = el;             // 指令对应的DOM
+        this.exp = exp;           // 指令对应的值，如"name,age"
+        this.attr = attr;         // 绑定的属性值，如"value"
+    }
+
+    // 观察者的行为
+    Vue.prototype.observer = function(obj) {
+        console.log(5)
+        var _this = this;
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                Object.defineProperty(this.$data, key, {
+                    enumerable: true,
+                    configurable: true,
+                    get: function() {
+                        console.log('监听正在获取')
+                    },
+                    set: function(val) {
+                        console.log('监听到了'+key+'值改变,改变为'+val)
+                        _this.update(key,val)
+                    }
+                })
+                // 初始化data
+                _this.$data[key] = obj[key];
+            }
+        }
+    }
+    // 更新
+    Vue.prototype.update = function(key,val) {
+        console.log(6)
+        for (const i of this.$Attr) {
+            if( i.exp === key){
+                i.el[i.attr] = val
+            }
+        }
+    }
+
+</script>
+</body>
+</html>

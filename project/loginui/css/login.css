@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100%;
+  overflow: hidden;
+  background-image: url(../image/背景图.jpg);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
+  background-size: cover;
+}
+.title {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-top: 100px;
+  font-size: 70px;
+  font-family: 'SimSun';
+  color: #FFF;
+}
+  {
+  display: flex;
+  justify-content: center;
+  width: 900px;
+  height: 200px;
+  margin: 60px auto 0;
+}
+ .el_form .info_content {
+  height: 90px;
+}
+ .el_form .each_info {
+  position: relative;
+  margin-left: 15px;
+  border-bottom: 0.5px solid #fff;
+  float: left;
+}
+ .el_form .each_info .in_icon img {
+  display: inline-block;
+  width: 33px;
+  height: 36px;
+}
+ .el_form .each_info input {
+  outline: none;
+  border: none;
+  background: none;
+  color: #fff;
+  font-size: 18px;
+  margin-left: 10px;
+}
+ .el_form .each_info input::-webkit-input-placeholder {
+  color: #FFF;
+}
+ .el_form .each_info .ftpwd {
+  position: absolute;
+  right: -68px;
+  top: 15px;
+  color: #fff;
+}
+ .el_form .each_info .show_pwd img {
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  display: inline-block;
+  width: 33px;
+  height: 36px;
+}
+ .el_form .rginfo_content .each_info {
+  float: none;
+}
+ .el_form .rginfo_content .rg_tip {
+  margin: 15px;
+  color: #cf0909;
+}
+ .el_form .rginfo_content .rg_tip img {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+ .el_form .errtip {
+  width: 300px;
+  height: auto;
+  color: #eb1717;
+  margin-left: 10px;
+}
+ .el_form .errtip img {
+  display: inline-block;
+  width: 25;
+  height: 25px;
+}
+ .el_form .log_btn_box {
+  display: flex;
+  align-items: center;
+  width: 600px;
+  height: 50px;
+  margin: 10px auto;
+  padding-left: 140px;
+}
+ .el_form .log_btn_box .login_btn {
+  display: inline-block;
+  padding: 10px 35px;
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+ .el_form .log_btn_box .rg_btn {
+  margin-left: 50px;
+  background-color: #337dbe;
+  border-color: #337dbe;
+}

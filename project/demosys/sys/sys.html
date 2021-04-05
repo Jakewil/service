@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sys</title>
+
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/sys.css">
+    <script src="https://vuejs.org/js/vue.min.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="js/sys.js"></script>
+    <style>
+        .el-header {
+            background-color: #B3C0D1;
+            color: #333;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <el-row>
+            <el-col :span="24">
+                <div class="title">
+                    跨组织人才管理系统
+                </div>
+            </el-col>
+        </el-row>
+        <el-container style="height: calc(100% - 39px); border: 1px solid #eee">
+            <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+                <el-menu @select="Selct">
+                    <el-submenu index="1">
+                        <template slot="title" ><i class="el-icon-search"></i>信息查询</template>
+                        <el-menu-item-group  >
+                            <!-- <template slot="title">分组一</template> -->
+                            <el-menu-item index="1-1"><i class="el-icon-user"></i>员工查询</el-menu-item>
+                            <el-menu-item index="1-2"><i class="el-icon-s-custom"></i>人才查询</el-menu-item>
+                        </el-menu-item-group>
+                        <!-- <el-menu-item-group title="分组2">
+                            <el-menu-item index="1-3">选项3</el-menu-item>
+                        </el-menu-item-group>
+                        <el-submenu index="1-4">
+                            <template slot="title">选项4</template>
+                            <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+                        </el-submenu> -->
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title"><i class="el-icon-edit"></i>信息录入</template>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1"><i class="el-icon-document"></i>员工档案</el-menu-item>
+                            <el-menu-item index="2-2"><i class="el-icon-chat-round"></i>员工评价</el-menu-item>
+                        </el-menu-item-group>
+
+                    </el-submenu>
+                    <el-menu-item index="3"><i class="el-icon-s-check"></i>信息审核</el-menu-item>
+                    <!-- <el-submenu index="3">
+                        <template slot="title"><i class="el-icon-s-check"></i>信息审核</template>
+                        <el-menu-item-group>
+                            <template slot="title">分组一</template>
+                            <el-menu-item index="3-1">选项1</el-menu-item>
+                            <el-menu-item index="3-2">选项2</el-menu-item>
+                        </el-menu-item-group>
+
+                        </el-subme                        <el-menu-item-group title="分组2">
+                            <el-menu-item index="3-3">选项3</el-menu-item>
+                        </el-menu-item-group>
+                        <el-submenu index="3-4">
+                            <template slot="title">选项4</template>
+                            <el-menu-item index="3-4-1">选项4-1</el-menu-item>nu>
+                    </el-submenu> -->
+                </el-menu>
+            </el-aside>
+
+            <el-container>
+                <el-header style="text-align: right; font-size: 12px ">
+
+                    <span>王小虎</span>
+                    <el-dropdown>
+                        <i class="el-icon-setting" style="margin-right: 15px"></i>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>退出登录</el-dropdown-item>
+                            <!-- <el-dropdown-item>新增</el-dropdown-item>
+                            <el-dropdown-item>删除</el-dropdown-item> -->
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </el-header>
+                <el-row style="display: none;">
+                    <el-col :span="24">
+                        <div class="grid-content bg-purple-dark">
+                            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                                <div class="fm_item">
+                                    <el-form-item label="姓名">
+                                        <el-input v-model="formInline.user" placeholder="请输入姓名"></el-input>
+                                    </el-form-item>
+                                </div>
+                                <div class="fm_item">
+                                    <el-form-item label="电话尾号">
+                                        <el-input v-model="formInline.userphone" placeholder="请输入手机尾号后四位"></el-input>
+                                    </el-form-item>
+                                    <el-button type="primary" @click="onSubmit">查询</el-button>
+                                </div>
+                            </el-form>
+                        </div>
+                    </el-col>
+                </el-row>
+                <!-- 员工信息查询 -->
+                <el-main style="display: none;" class="ep_info">
+                    <el-table :data="tableData">
+                        <el-table-column prop="date" label="日期" width="140">
+                        </el-table-column>
+                        <el-table-column prop="name" label="姓名" width="120">
+                        </el-table-column>
+                        <el-table-column prop="address" label="地址">
+                        </el-table-column>
+                    </el-table>
+                </el-main>
+                <!-- 人才信息查询 -->
+                <el-main class="tl_info" style="display: none;">
+                    <el-table :data="tableData">
+                        <el-table-column prop="date" label="日期" width="140">
+                        </el-table-column>
+                        <el-table-column prop="name" label="姓名" width="120">
+                        </el-table-column>
+                        <el-table-column prop="mes" label="奖惩">
+                        </el-table-column>
+                    </el-table>
+                </el-main>
+                <!-- 档案录入 -->
+                <el-main class="fm_info">
+                    <el-form ref="ruleForm" :rules="rules" :model="staff_form" label-width="80px">
+                        <el-form-item label="员工姓名" prop="name">
+                            <el-input v-model="staff_form.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="性别" prop="sex">
+                            <el-radio-group v-model="staff_form.sex" class="radio_s">
+                                <el-radio v-model="staff_form.sex.male" label="男"></el-radio>
+                                <el-radio v-model="staff_form.sex.female" label="女"></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="电话号码" prop="phonenum">
+                            <el-input v-model="staff_form.phonenum"></el-input>
+                        </el-form-item>
+                        <el-form-item label="家庭住址" prop="address">
+                            <el-input v-model="staff_form.address"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="身份证号" prop="idc">
+                            <el-input v-model="staff_form.idc"></el-input>
+                        </el-form-item>
+
+
+                        <el-form-item label="邮箱" prop="email">
+                            <el-input v-model="staff_form.email"></el-input>
+                        </el-form-item>
+
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                            <el-button>取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-main>
+                <!-- 评价录入 -->
+                <el-main class="cm_info">
+                    <el-form ref="ruleForm" :rules="cm_rules" :model="cm_info" label-width="80px">
+                        <el-form-item label="员工姓名" prop="name">
+                            <el-input v-model="cm_info.name"></el-input>
+                        </el-form-item>
+                        </el-form-item>
+                        <el-form-item label="电话号码" prop="phonenum">
+                            <el-input v-model="cm_info.phonenum"></el-input>
+                        </el-form-item>
+                        <el-form-item label="录入时间" required>
+                            <el-col :span="24">
+                                <el-form-item prop="date">
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="cm_info.date1"
+                                        style="width: 100%;"></el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                        </el-form-item>
+                        <el-form-item label="奖惩" prop="rwd_psh">
+                            <el-radio-group v-model="cm_info.rwd_psh" class="radio_s">
+                                <el-radio v-model="cm_info.rwd_psh.reward" label="奖励"></el-radio>
+                                <el-radio v-model="cm_info.rwd_psh.pubnish" label="惩罚"></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="详情" prop="content">
+                            <el-input type="textarea" v-model="cm_info.desc"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                            <el-button>取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+
+    <script>
+        Vue.prototype.global = -1
+        var app = new Vue({
+            el: "#app",
+            data() {
+
+                const item = {
+                    date: '2016-05-02',
+                    name: '王小hu',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                };
+
+                return {
+                    tableData: Array(2).fill(item),
+                    formInline: {
+                        user: '',
+                        userphone: ''
+                    },
+                    staff_form: {
+                        name: '',
+                        sex: '',
+                        phonenum: '',
+                        address: '',
+                        idc: '',
+                        email: ''
+                    },
+                    cm_info: {
+                        name: '',
+                        phonenum: '',
+                        date: '',
+                        rwd_psh: '',
+                        content: ''
+                    },
+                    rules: {
+                        name: [
+                            { required: true, message: '请输入员工姓名', trigger: 'blur' }
+                        ],
+                        sex: [
+                            { required: true, message: '请选择性别', trigger: 'blur' }
+                        ],
+                        phonenum: [
+                            { required: true, message: '请输入电话号码', trigger: 'blur' },
+                            { min: 11, max: 11, message: '请输入11位有效电话号码', trigger: 'blur' }
+                        ],
+                        address: [
+                            { required: true, message: '请输入家庭住址', trigger: 'blur' }
+                        ],
+                        idc: [
+                            { required: true, message: '请输入身份证号', trigger: 'blur' },
+                            { min: 18, max: 18, message: '请输入18位有效身份证号码', trigger: 'blur' }
+                        ],
+                        email: [
+                            { required: true, message: '请输入邮箱地址', trigger: 'blur' }
+                        ]
+                    },
+                    cm_rules: {
+                        name: [{required: true, message: '请输入员工姓名', trigger: 'blur'}],
+                        phonenum: [{required: true, message: '请输入电话号码', trigger: 'blur'}],
+                        date: [{required: true, message: '请选择日期', trigger: 'blur'}],
+                        rwd_psh: [{required: true, message: '请选择奖惩', trigger: 'blur'}],
+                        content: [{required: true, message: '请输入内容', trigger: 'blur'}],
+                    }
+
+                }
+
+
+            },
+
+            methods: {
+                Selct(index,indexpath) {
+                    console.log('------------------')
+                    console.log(index);
+                },
+                onSubmit() {
+                    console.log('submit!');
+                },
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            alert('submit!');
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
